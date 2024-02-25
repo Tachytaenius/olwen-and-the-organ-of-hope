@@ -1,4 +1,4 @@
-Usage for map editor
+Usage for map editor (which is all just a hack)
 
 With working directory set to game directory (containing main.lua):
 love . map-edit [map directory path (must exist)]

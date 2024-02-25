@@ -36,6 +36,9 @@ local function loadMap(state, mapName)
 	end
 
 	state.map = map
+
+	state.player.x, state.player.y = map.playerSpawnX, map.playerSpawnY
+	state.player.direction = map.playerSpawnDirection
 end
 
 return loadMap

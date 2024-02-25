@@ -191,6 +191,23 @@ function mapEditor.keypressed(key)
 			save()
 		end
 	end
+	if key == "p" then
+		local x, y = love.mouse.getPosition()
+		if x < viewportWidth * consts.windowScale and y < viewportHeight * consts.windowScale then
+			local x, y = mousePosToDisplayTileMapPosMetatiles(x, y)
+			if x >= 0 and x < mapInfo.widthMetatiles and y >= 0 and y < mapInfo.heightMetatiles then
+				if mapInfo.playerSpawnX == x and mapInfo.playerSpawnY == y then
+					-- Rotate
+					local dir = mapInfo.playerSpawnDirection
+					mapInfo.playerSpawnDirection = dir == "right" and "down" or dir == "down" and "left" or dir == "left" and "up" or dir == "up" and "right"
+				else
+					-- New place
+					mapInfo.playerSpawnX = x
+					mapInfo.playerSpawnY = y
+				end
+			end
+		end
+	end
 end
 
 function mapEditor.wheelmoved(x, y)
@@ -276,6 +293,7 @@ function mapEditor.draw()
 			love.graphics.setColor(1, 1, 1)
 		end
 	end
+	love.graphics.print("S (" .. (mapInfo.playerSpawnDirection == "up" and "^" or mapInfo.playerSpawnDirection == "right" and ">" or mapInfo.playerSpawnDirection == "down" and "v" or mapInfo.playerSpawnDirection == "left" and "<") .. ")", mapInfo.playerSpawnX * consts.metatileDivisions * consts.displayTileSize, mapInfo.playerSpawnY * consts.metatileDivisions * consts.displayTileSize)
 	love.graphics.rectangle("line", -1, -1, mapInfo.widthMetatiles * consts.metatileDivisions * consts.displayTileSize + 2, mapInfo.heightMetatiles * consts.metatileDivisions * consts.displayTileSize + 2)
 	love.graphics.origin()
 	love.graphics.setCanvas()
